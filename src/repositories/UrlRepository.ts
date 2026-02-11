@@ -2,10 +2,11 @@ import prisma from '../config/db';
 import { Url } from '@prisma/client';
 
 export class UrlRepository {
-  async create(originalUrl: string): Promise<Url> {
+  async create(originalUrl: string, shortCode?: string): Promise<Url> {
     return prisma.url.create({
       data: {
         originalUrl,
+        shortCode,
       },
     });
   }

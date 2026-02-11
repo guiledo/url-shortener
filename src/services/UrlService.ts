@@ -1,5 +1,5 @@
 import { UrlRepository } from '../repositories/UrlRepository';
-import { encode } from '../utils/base62';
+import { generateRandomCode } from '../utils/base62';
 
 export class UrlService {
   private urlRepository: UrlRepository;
@@ -14,10 +14,25 @@ export class UrlService {
       return existing.shortCode;
     }
 
-    const newUrl = await this.urlRepository.create(originalUrl);
-    const shortCode = encode(newUrl.id);
-    await this.urlRepository.updateShortCode(newUrl.id, shortCode);
-    return shortCode;
+    let shortCode: string;
+    let isUnique = false;
+    let attempts = 0;
+
+    do {
+      shortCode = generateRandomCode(7);
+      const existingCode = await this.urlRepository.findByShortCode(shortCode);
+      if (!existingCode) {
+        isUnique = true;
+      }
+      attempts++;
+    } while (!isUnique && attempts < 10);
+
+    if (!isUnique) {
+      throw new Error('Failed to generate a unique short code');
+    }
+
+    const newUrl = await this.urlRepository.create(originalUrl, shortCode);
+    return newUrl.shortCode!;
   }
 
   async getOriginalUrl(shortCode: string): Promise<string | null> {

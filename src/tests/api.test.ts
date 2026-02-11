@@ -33,10 +33,9 @@ describe('Url Shortener API Integration Tests', () => {
 
   describe('POST /api/shorten', () => {
     it('should shorten a valid URL', async () => {
-      // Setup mock
-      (prisma.url.findFirst as jest.Mock).mockResolvedValue(null); // No existing
-      (prisma.url.create as jest.Mock).mockResolvedValue({ ...mockUrlRecord, shortCode: null }); // Create returns ID
-      (prisma.url.update as jest.Mock).mockResolvedValue(mockUrlRecord); // Update with shortCode
+      (prisma.url.findFirst as jest.Mock).mockResolvedValue(null);
+      (prisma.url.findUnique as jest.Mock).mockResolvedValue(null);
+      (prisma.url.create as jest.Mock).mockResolvedValue(mockUrlRecord);
 
       const res = await request(app)
         .post('/api/shorten')

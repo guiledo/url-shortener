@@ -18,3 +18,11 @@ export function decode(str: string): number {
   }
   return num;
 }
+
+export function generateRandomCode(length: number = 7): string {
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    result += CHARSET.charAt(Math.floor(Math.random() * BASE));
+  }
+  return result;
+}
