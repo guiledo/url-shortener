@@ -5,8 +5,12 @@
       "destination": "https://url-shortener-production-2223.up.railway.app/api/:path*"
     },
     {
-      "source": "/:code",
-      "destination": "https://url-shortener-production-2223.up.railway.app/:code"
+      "source": "/api",
+      "destination": "https://url-shortener-production-2223.up.railway.app/api"
+    },
+    {
+      "source": "/((?!api|index.html|assets|vite.svg).*)",
+      "destination": "https://url-shortener-production-2223.up.railway.app/:1"
     }
   ]
 }
