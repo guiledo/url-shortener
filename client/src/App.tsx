@@ -24,7 +24,8 @@ function App() {
     setShortUrl('');
 
     try {
-      const response = await fetch('/api/shorten', {
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      const response = await fetch(`${apiUrl}/api/shorten`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "build": "cd client && npm install && npm run build && cd .. && tsc",
+    "build": "npx prisma generate && tsc",
+    "postinstall": "npx prisma generate",
     "start": "node dist/server.js",
     "dev": "nodemon src/server.ts"
   },

@@ -24,7 +24,8 @@ export class UrlController {
       const originalUrl = await urlService.getOriginalUrl(shortCode);
 
       if (!originalUrl) {
-        return res.status(404).json({ message: 'URL not found' });
+        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+        return res.redirect(frontendUrl);
       }
 
       await urlService.trackClick(shortCode);
