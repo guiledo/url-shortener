@@ -80,12 +80,12 @@ describe('Url Shortener API Integration Tests', () => {
       expect(res.header.location).toBe(mockOriginalUrl);
     });
 
-    it('should return 404 if code not found', async () => {
+    it('should redirect to frontend if code not found', async () => {
       (prisma.url.findUnique as jest.Mock).mockResolvedValue(null);
 
       const res = await request(app).get('/nonexistent');
 
-      expect(res.status).toBe(404);
+      expect(res.status).toBe(302);
     });
   });
 

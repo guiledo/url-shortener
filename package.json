@@ -7,8 +7,9 @@
     "test": "jest",
     "build": "npx prisma generate && tsc",
     "postinstall": "npx prisma generate",
-    "start": "node dist/server.js",
-    "dev": "nodemon src/server.ts"
+    "start": "npx prisma db push && node dist/server.js",
+    "dev": "nodemon src/server.ts",
+    "prisma:push": "npx prisma db push"
   },
   "repository": {
     "type": "git",
