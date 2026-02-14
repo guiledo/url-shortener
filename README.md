@@ -62,8 +62,9 @@ The project includes integration tests to ensure API reliability.
 - **Clean Code:** Adherence to SOLID principles and clear separation of concerns.
 - **Cloud Deployment:** Practical experience with CI/CD flows on Railway and Vercel.
 
+---
+
 ## 📧 Contact
 - **LinkedIn**: [linkedin.com/in/glc42/](https://linkedin.com/in/glc42)
 - **GitHub**: [@guiledo](https://github.com/guiledo)
 - **Email**: glc.professional42@gmail.com
-
