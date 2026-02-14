@@ -6,16 +6,12 @@ A modern, high-performance URL shortener built with **TypeScript**, **React**, a
 - **Frontend:** [https://url-shortener-portfolio-proj.vercel.app](https://url-shortener-portfolio-proj.vercel.app/)
 - **Backend API:** [https://url-short-gledo.up.railway.app/](https://url-short-gledo.up.railway.app/)
 
----
-
 ## ✨ Features
 - **Instant Shortening:** Transform long URLs into compact, shareable links.
 - **Custom Base62 Encoding:** Optimized algorithm for generating short, unique identifiers.
 - **Real-time Analytics:** Track the number of clicks for every shortened link.
 - **Responsive UI:** Interface built with Tailwind CSS.
 - **Security First:** Includes HTTP headers protection (Helmet), CORS configuration, and request validation.
-
----
 
 ## 🛠️ Tech Stack
 
@@ -37,8 +33,6 @@ A modern, high-performance URL shortener built with **TypeScript**, **React**, a
 - **Vercel:** Frontend Hosting.
 - **Docker:** Containerized environment for consistent development.
 
----
-
 ## 🏗️ Architecture
 The backend follows a **Layered Architecture** pattern to ensure maintainability and scalability:
 - **Routes:** Entry points for API requests.
@@ -47,12 +41,8 @@ The backend follows a **Layered Architecture** pattern to ensure maintainability
 - **Repositories:** Abstract database operations using Prisma.
 - **Middlewares:** Handle cross-cutting concerns like validation and error handling.
 
----
-
 ## 🧪 Testing
 The project includes integration tests to ensure API reliability.
-
----
 
 ## 📈 Skills Demonstrated
 - **Type Safety:** Extensive use of TypeScript across the entire stack to catch errors at compile-time.
@@ -61,8 +51,6 @@ The project includes integration tests to ensure API reliability.
 - **Validation:** Strict request body validation using Zod schemas.
 - **Clean Code:** Adherence to SOLID principles and clear separation of concerns.
 - **Cloud Deployment:** Practical experience with CI/CD flows on Railway and Vercel.
-
----
 
 ## 📧 Contact
 - **LinkedIn**: [linkedin.com/in/glc42/](https://linkedin.com/in/glc42)
