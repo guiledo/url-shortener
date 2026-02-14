@@ -6,7 +6,8 @@ A modern, high-performance URL shortener built with **TypeScript**, **React**, a
 - **Frontend:** [https://url-shortener-portfolio-proj.vercel.app](https://url-shortener-portfolio-proj.vercel.app/)
 - **Backend API:** [https://url-short-gledo.up.railway.app/](https://url-short-gledo.up.railway.app/)
 
-<video src="https://github.com/user-attachments/assets/0cbfe9d7-3631-4e46-9562-f869de12be26" autoplay loop muted playsinline disableRemotePlayback width="100%"></video>
+![url-shortener-demo](https://github.com/user-attachments/assets/6e15188d-039b-44ea-b441-c2e1e6077953)
+
 
 ## ✨ Features
 - **Instant Shortening:** Transform long URLs into compact, shareable links.
