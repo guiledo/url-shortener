@@ -43,6 +43,22 @@ The backend follows a **Layered Architecture** pattern to ensure maintainability
 - **Repositories:** Abstract database operations using Prisma.
 - **Middlewares:** Handle cross-cutting concerns like validation and error handling.
 
+## 📁 Project Structure
+```text
+.
+├── client/                # Frontend application (React + Vite)
+├── prisma/                # Database schema and migrations
+└── src/                   # Backend API source code
+    ├── controllers/       # Route controllers (request/response handling)
+    ├── services/          # Business logic layer
+    ├── repositories/      # Data access layer (Prisma)
+    ├── routes/            # API endpoint definitions
+    ├── middlewares/       # Custom Express middlewares
+    ├── schemas/           # Data validation schemas (Zod)
+    ├── utils/             # Utility functions and helpers
+    └── tests/             # Test suite
+```
+
 ## 🧪 Testing
 The project includes integration tests to ensure API reliability.
 
