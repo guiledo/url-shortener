@@ -8,11 +8,16 @@ export class UrlController {
     try {
       const { url } = req.body;
       const shortCode = await urlService.shorten(url);
+      
+      const host = req.get('host');
+      const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+      
       res.status(201).json({
         shortCode,
-        shortUrl: `${req.protocol}://${req.get('host')}/${shortCode}`,
+        shortUrl: `${protocol}://${host}/${shortCode}`,
       });
     } catch (error) {
+      console.error('Error in shorten controller:', error);
       next(error);
     }
   }
