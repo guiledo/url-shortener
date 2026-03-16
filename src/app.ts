@@ -9,22 +9,27 @@ import { errorHandler } from './middlewares/error';
 
 const app = express();
 
+app.set('trust proxy', 1);
+
+app.use(cors({
+  origin: true,
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 200
+}));
+
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
-  standardHeaders: 'draft-7', // expose compliance info in the `RateLimit-*` headers
-  legacyHeaders: false, // disable the `X-RateLimit-*` headers
+  windowMs: 15 * 60 * 1000,
+  limit: 100,
+  standardHeaders: 'draft-7',
+  legacyHeaders: false,
+  skip: (req) => req.method === 'OPTIONS',
   message: 'Too many requests from this IP, please try again after 15 minutes',
 });
 
 app.use(limiter);
-app.use(helmet());
-
-const allowedOrigin = process.env.ALLOWED_ORIGIN || 'http://localhost:5173';
-
-app.use(cors({
-  origin: allowedOrigin,
-  methods: ['GET', 'POST'],
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 app.use(morgan('dev'));
 app.use(express.json());

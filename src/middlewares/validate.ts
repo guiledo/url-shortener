@@ -17,6 +17,7 @@ export const validate = (schema: AnyZodObject) => (
     if (error instanceof ZodError) {
       return res.status(400).json({
         status: 'error',
+        message: 'Validation failed',
         errors: error.errors.map((e) => ({
             path: e.path.join('.'),
             message: e.message

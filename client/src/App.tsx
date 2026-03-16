@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link2, Copy, Check, ArrowRight, Loader2 } from 'lucide-react';
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!url) return;
+    if (!url || !url.trim()) return;
 
     let targetUrl = url.trim();
     if (!targetUrl.startsWith('http://') && !targetUrl.startsWith('https://')) {
@@ -38,15 +38,25 @@ function App() {
         body: JSON.stringify({ url: targetUrl }),
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Something went wrong');
+      const contentType = response.headers.get('content-type');
+      let data: any = {};
+      
+      if (contentType && contentType.includes('application/json')) {
+        data = await response.json();
       }
 
-      setShortUrl(data.shortUrl);
+      if (!response.ok) {
+        throw new Error(data.message || data.status || 'Something went wrong');
+      }
+
+      if (data.shortUrl) {
+        setShortUrl(String(data.shortUrl));
+      } else {
+        throw new Error('Server returned an invalid response');
+      }
     } catch (err: any) {
-      setError(err.message);
+      console.error('Submission error:', err);
+      setError(err?.message || 'An unexpected error occurred');
     } finally {
       setLoading(false);
     }
