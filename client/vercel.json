@@ -2,15 +2,15 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://url-shortener-production-2223.up.railway.app/api/:path*"
+      "destination": "https://url-shortener-knyo.onrender.com/api/:path*"
     },
     {
       "source": "/api",
-      "destination": "https://url-shortener-production-2223.up.railway.app/api"
+      "destination": "https://url-shortener-knyo.onrender.com/api"
     },
     {
       "source": "/:code((?!api|index.html|assets|vite.svg)[^/]*)",
-      "destination": "https://url-shortener-production-2223.up.railway.app/:code"
+      "destination": "https://url-shortener-knyo.onrender.com/:code"
     }
   ]
 }

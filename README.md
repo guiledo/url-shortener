@@ -4,7 +4,7 @@ A modern, high-performance URL shortener built with **TypeScript**, **React**, a
 
 ## 🚀 Live Demo
 - **Frontend:** [https://url-shortener-portfolio-proj.vercel.app](https://url-shortener-portfolio-proj.vercel.app/)
-- **Backend API:** [https://url-short-gledo.up.railway.app/](https://url-short-gledo.up.railway.app/)
+- **Backend API:** [https://url-shortener-knyo.onrender.com/](https://url-shortener-knyo.onrender.com/)
 
 ![url-shortener-demo](https://github.com/user-attachments/assets/0238c765-f165-40c8-a1dc-45b0bbb63674)
 
@@ -31,7 +31,8 @@ A modern, high-performance URL shortener built with **TypeScript**, **React**, a
 - **Jest** & **Supertest** (Testing suite)
 
 ### DevOps & Deployment
-- **Railway:** Backend Hosting & Managed PostgreSQL.
+- **Render:** Backend Hosting.
+- **Supabase:** Managed PostgreSQL.
 - **Vercel:** Frontend Hosting.
 - **Docker:** Containerized environment for consistent development.
 
@@ -68,7 +69,7 @@ The project includes integration tests to ensure API reliability.
 - **Database Proficiency:** Complex indexing for performance and ORM usage for type-safe queries.
 - **Validation:** Strict request body validation using Zod schemas.
 - **Clean Code:** Adherence to SOLID principles and clear separation of concerns.
-- **Cloud Deployment:** Practical experience with CI/CD flows on Railway and Vercel.
+- **Cloud Deployment:** Practical experience with CI/CD flows on Render and Vercel.
 
 ## 📧 Contact
 - **LinkedIn**: [linkedin.com/in/glc42/](https://linkedin.com/in/glc42)
