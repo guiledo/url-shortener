@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package*.json ./
 COPY prisma ./prisma/
 
-RUN npm install
+RUN npm install -g ts-node typescript
 
 COPY . .
 
@@ -15,5 +15,5 @@ RUN npx prisma generate && npm run build
 
 EXPOSE 10000
 
-CMD npx prisma db push && node dist/server.js
+CMD ["ts-node", "src/server.ts"]
 
