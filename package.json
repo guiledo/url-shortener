@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "build": "npx prisma generate && tsc",
+    "build": "npx prisma generate && npx prisma db push && tsc",
     "postinstall": "npx prisma generate",
-    "start": "npx prisma db push && node dist/server.js",
+    "start": "node dist/server.js",
     "dev": "nodemon src/server.ts",
     "prisma:push": "npx prisma db push"
   },
