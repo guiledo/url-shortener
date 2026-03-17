@@ -11,9 +11,9 @@ RUN npm install -g ts-node typescript
 
 COPY . .
 
-RUN npx prisma generate && npm run build
+RUN npm run build
 
 EXPOSE 10000
 
-CMD ["ts-node", "src/server.ts"]
+CMD ["npm", "start"]
 
