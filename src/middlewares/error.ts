@@ -6,10 +6,11 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  console.error(err.stack);
+  console.error('Error stack:', err.stack);
 
   res.status(500).json({
     status: 'error',
-    message: 'Internal Server Error',
+    message: err.message || 'Internal Server Error',
+    stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
   });
 };
