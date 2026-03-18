@@ -5,8 +5,41 @@ function App() {
   const [url, setUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isWakingUp, setIsWakingUp] = useState(false);
+  const [dots, setDots] = useState('');
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
+
+  // Animate dots for "Waking up server"
+  React.useEffect(() => {
+    if (!isWakingUp) {
+      setDots('');
+      return;
+    }
+    const interval = setInterval(() => {
+      setDots(prev => (prev.length >= 3 ? '' : prev + '.'));
+    }, 500);
+    return () => clearInterval(interval);
+  }, [isWakingUp]);
+
+  // Pre-warm the backend on mount
+  React.useEffect(() => {
+    const warmUp = async () => {
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      // If it takes more than 1.5s, consider it "waking up"
+      const timeout = setTimeout(() => setIsWakingUp(true), 1500);
+      
+      try {
+        await fetch(`${apiUrl}/api/health`);
+      } catch (err) {
+        console.warn('Warm-up failed:', err);
+      } finally {
+        clearTimeout(timeout);
+        setIsWakingUp(false);
+      }
+    };
+    warmUp();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,6 +111,13 @@ function App() {
           </div>
           <p className="text-gray-500 dark:text-gray-400 text-sm">Shorten your long links.</p>
         </header>
+
+        {isWakingUp && !shortUrl && (
+          <div className="mb-4 text-xs font-medium text-amber-600 dark:text-amber-400 flex items-center justify-center gap-1.5">
+            <Loader2 className="w-3 h-3 animate-spin" />
+            Waking up server{dots} (first request may take a minute)
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           <div className="relative">
