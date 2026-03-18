@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package*.json ./
 COPY prisma ./prisma/
 
-RUN npm install -g ts-node typescript
+RUN npm install
 
 COPY . .
 
