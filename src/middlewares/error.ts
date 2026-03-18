@@ -1,16 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
 
 export const errorHandler = (
-  err: Error,
+  err: any,
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  console.error('Error stack:', err.stack);
+  const errorMessage = err.message || 'Unknown Error';
+  console.error('CRITICAL ERROR:', errorMessage);
 
   res.status(500).json({
     status: 'error',
-    message: err.message || 'Internal Server Error',
-    stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+    message: errorMessage,
+    error_detail: String(err)
   });
 };
