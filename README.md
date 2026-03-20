@@ -35,6 +35,7 @@ A modern, high-performance URL shortener built with **TypeScript**, **React**, a
 - **Supabase:** Managed PostgreSQL.
 - **Vercel:** Frontend Hosting.
 - **Docker:** Containerized environment for consistent development.
+- **GitHub Actions:** Auto-ping (Keep Alive) every 14 minutes to prevent Render from sleeping.
 
 ## 🏗️ Architecture
 The backend follows a **Layered Architecture** pattern to ensure maintainability and scalability:
