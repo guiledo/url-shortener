@@ -10,4 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Ping Server
-        run: curl -s https://url-shortener-knyo.onrender.com/api/health
+        run: |
+          curl -s https://url-shortener-knyo.onrender.com/api/health
+          curl -s -o /dev/null https://bgahwcxrznnkfzgqqslg.supabase.co
