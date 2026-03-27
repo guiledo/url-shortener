@@ -1,4 +1,4 @@
-name: Keep Alive Render
+name: Keep Alive Render and Supabase
 
 on:
   schedule:
