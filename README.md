@@ -1,6 +1,6 @@
 # 🔗 URL Shortener Fullstack
 
-A modern, high-performance URL shortener built with **TypeScript**, **React**, and **Node.js**. This project was developed to showcase fullstack engineering skills, including API design, database modeling, and cloud deployment.
+A modern, high-performance URL shortener built with **TypeScript**, **React**, and **Java / Spring Boot**. This project was developed to showcase fullstack engineering skills, including API design, database modeling, and cloud deployment.
 
 ## 🚀 Live Demo
 - **Frontend:** [https://url-shortener-portfolio-proj.vercel.app](https://url-shortener-portfolio-proj.vercel.app/)
@@ -13,7 +13,7 @@ A modern, high-performance URL shortener built with **TypeScript**, **React**, a
 - **Custom Base62 Encoding:** Optimized algorithm for generating short, unique identifiers.
 - **Real-time Analytics:** Track the number of clicks for every shortened link.
 - **Responsive UI:** Interface built with Tailwind CSS.
-- **Security First:** Includes HTTP headers protection (Helmet), CORS configuration, and request validation.
+- **Security First:** Includes HTTP headers protection, CORS configuration, and an in-memory Rate Limiting Interceptor.
 
 ## 🛠️ Tech Stack
 
@@ -24,53 +24,60 @@ A modern, high-performance URL shortener built with **TypeScript**, **React**, a
 - **Lucide React** (Iconography)
 
 ### Backend
-- **Node.js** & **Express**
-- **Prisma ORM** (Database management)
+- **Java 21** & **Spring Boot 3**
+- **Spring Data JPA** (Database management)
 - **PostgreSQL** (Primary database)
-- **Zod** (Schema validation)
-- **Jest** & **Supertest** (Testing suite)
+- **Jakarta Validation** (Schema validation)
+- **JUnit 5** (Testing suite)
+- **Maven** (Build Tool)
 
 ### DevOps & Deployment
-- **Render:** Backend Hosting.
+- **Render:** Backend Hosting (Dockerized).
 - **Supabase:** Managed PostgreSQL.
 - **Vercel:** Frontend Hosting.
-- **Docker:** Containerized environment for consistent development.
+- **Docker:** Containerized environment with Multi-stage builds.
 - **GitHub Actions:** Auto-ping (Keep Alive) every 14 minutes to prevent Render from sleeping.
 
 ## 🏗️ Architecture
 The backend follows a **Layered Architecture** pattern to ensure maintainability and scalability:
-- **Routes:** Entry points for API requests.
-- **Controllers:** Handle HTTP logic and request/response flow.
-- **Services:** Contain the core business logic (e.g., URL encoding).
-- **Repositories:** Abstract database operations using Prisma.
-- **Middlewares:** Handle cross-cutting concerns like validation and error handling.
+- **Controllers:** Entry points for API requests, handling HTTP logic and request/response flow.
+- **Services:** Contain the core business logic (e.g., URL encoding and uniqueness verification).
+- **Repositories:** Abstract database operations using Spring Data JPA.
+- **Interceptors:** Handle cross-cutting concerns like Rate Limiting.
+- **DTOs:** Data Transfer Objects with Jakarta Validation.
 
 ## 📁 Project Structure
 ```text
 .
 ├── client/                # Frontend application (React + Vite)
-├── prisma/                # Database schema and migrations
+├── pom.xml                # Maven configuration
+├── Dockerfile             # Multi-stage Dockerfile
 └── src/                   # Backend API source code
-    ├── controllers/       # Route controllers (request/response handling)
-    ├── services/          # Business logic layer
-    ├── repositories/      # Data access layer (Prisma)
-    ├── routes/            # API endpoint definitions
-    ├── middlewares/       # Custom Express middlewares
-    ├── schemas/           # Data validation schemas (Zod)
-    ├── utils/             # Utility functions and helpers
-    └── tests/             # Test suite
+    ├── main/java/.../     # Java Source Files
+    │   ├── config/        # CORS, Security Headers, Exceptions, Rate Limits
+    │   ├── controller/    # Route controllers (request/response handling)
+    │   ├── dto/           # Data Transfer Objects
+    │   ├── model/         # JPA Entities
+    │   ├── repository/    # Data access layer
+    │   ├── service/       # Business logic layer
+    │   └── util/          # Utility functions (Base62)
+    └── test/              # Test suite (JUnit)
 ```
 
-## 🧪 Testing
-The project includes integration tests to ensure API reliability.
+## 🚀 Environment Variables (Backend)
+If you are deploying this to Render or another platform, ensure the following environment variables are set:
+- `SPRING_DATASOURCE_URL`: The JDBC connection string (e.g. `jdbc:postgresql://host:port/database`)
+- `POSTGRES_USER`: Database username
+- `POSTGRES_PASSWORD`: Database password
+- `FRONTEND_URL`: URL of the frontend (for redirects and CORS)
 
 ## 📈 Skills Demonstrated
-- **Type Safety:** Extensive use of TypeScript across the entire stack to catch errors at compile-time.
+- **Type Safety:** Extensive use of Java's static typing and TypeScript across the stack.
 - **API Design:** RESTful principles, structured JSON responses, and proper HTTP status codes.
-- **Database Proficiency:** Complex indexing for performance and ORM usage for type-safe queries.
-- **Validation:** Strict request body validation using Zod schemas.
+- **Database Proficiency:** Complex indexing for performance and JPA usage for type-safe queries.
+- **Validation:** Strict request body validation using Jakarta constraints.
 - **Clean Code:** Adherence to SOLID principles and clear separation of concerns.
-- **Cloud Deployment:** Practical experience with CI/CD flows on Render and Vercel.
+- **Cloud Deployment:** Practical experience with containerized deployments on Render and serverless hosting on Vercel.
 
 ## 📧 Contact
 - **LinkedIn**: [linkedin.com/in/glc42/](https://linkedin.com/in/glc42)

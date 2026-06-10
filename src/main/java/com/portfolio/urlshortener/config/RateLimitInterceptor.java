@@ -57,7 +57,7 @@ public class RateLimitInterceptor implements HandlerInterceptor {
             clientIp = request.getRemoteAddr();
         }
         
-        TokenBucket bucket = buckets.computeIfAbsent(clientIp, k -> new TokenBucket(100, 100, 60000)); // 100 requests per minute
+        TokenBucket bucket = buckets.computeIfAbsent(clientIp, k -> new TokenBucket(100, 100, 60000));
 
         if (!bucket.tryConsume()) {
             response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
