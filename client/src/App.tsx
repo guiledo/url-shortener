@@ -1,34 +1,19 @@
-import React, { useState } from 'react';
-import { Link2, Copy, Check, ArrowRight, Loader2 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ArrowRight, Check, Plus } from 'lucide-react';
 
 function App() {
   const [url, setUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [isWakingUp, setIsWakingUp] = useState(false);
-  const [dots, setDots] = useState('');
   const [error, setError] = useState('');
   const [copied, setCopied] = useState(false);
 
-  // Animate dots for "Waking up server"
-  React.useEffect(() => {
-    if (!isWakingUp) {
-      setDots('');
-      return;
-    }
-    const interval = setInterval(() => {
-      setDots(prev => (prev.length >= 3 ? '' : prev + '.'));
-    }, 500);
-    return () => clearInterval(interval);
-  }, [isWakingUp]);
-
   // Pre-warm the backend on mount
-  React.useEffect(() => {
+  useEffect(() => {
     const warmUp = async () => {
       const apiUrl = import.meta.env.VITE_API_URL || '';
-      // If it takes more than 1.5s, consider it "waking up"
       const timeout = setTimeout(() => setIsWakingUp(true), 1500);
-      
       try {
         await fetch(`${apiUrl}/api/health`);
       } catch (err) {
@@ -53,7 +38,7 @@ function App() {
     try {
       new URL(targetUrl);
     } catch {
-      setError('Please enter a valid URL (e.g., example.com)');
+      setError('Please enter a valid URL.');
       return;
     }
 
@@ -65,31 +50,28 @@ function App() {
       const apiUrl = import.meta.env.VITE_API_URL || '';
       const response = await fetch(`${apiUrl}/api/shorten`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url: targetUrl }),
       });
 
       const contentType = response.headers.get('content-type');
       let data: any = {};
-      
       if (contentType && contentType.includes('application/json')) {
         data = await response.json();
       }
 
       if (!response.ok) {
-        throw new Error(data.message || data.status || 'Something went wrong');
+        throw new Error(data.message || 'Server error occurred.');
       }
 
       if (data.shortUrl) {
         setShortUrl(String(data.shortUrl));
       } else {
-        throw new Error('Server returned an invalid response');
+        throw new Error('Invalid response structure.');
       }
     } catch (err: any) {
       console.error('Submission error:', err);
-      setError(err?.message || 'An unexpected error occurred');
+      setError(err?.message || 'An unexpected error occurred.');
     } finally {
       setLoading(false);
     }
@@ -101,70 +83,95 @@ function App() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleReset = () => {
+    setUrl('');
+    setShortUrl('');
+    setError('');
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center p-4 sm:p-8 transition-colors duration-300">
-      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-8 sm:p-10 w-full max-w-md text-center border border-transparent dark:border-gray-800">
-        <header className="mb-8">
-          <div className="flex justify-center items-center gap-2 mb-2">
-            <Link2 className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">URL Shortener</h1>
-          </div>
-          <p className="text-gray-500 dark:text-gray-400 text-sm">Shorten your long links.</p>
-        </header>
-
-        {isWakingUp && !shortUrl && (
-          <div className="mb-4 text-xs font-medium text-amber-600 dark:text-amber-400 flex items-center justify-center gap-1.5">
-            <Loader2 className="w-3 h-3 animate-spin" />
-            Waking up server{dots} (first request may take a minute)
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Paste your long URL here..."
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              disabled={loading}
-              className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all dark:bg-gray-800 dark:text-white ${
-                error 
-                  ? 'border-red-500 focus:ring-red-200 dark:border-red-900 dark:focus:ring-red-900/30' 
-                  : 'border-gray-200 dark:border-gray-700 focus:border-indigo-600 dark:focus:border-indigo-500 focus:ring-indigo-100 dark:focus:ring-indigo-900/30'
-              }`}
-            />
-          </div>
-          
-          {error && <p className="text-red-500 dark:text-red-400 text-sm text-left -mt-2">{error}</p>}
-          
-          <button 
-            type="submit" 
-            disabled={loading || !url} 
-            className="w-fit self-center bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white font-semibold py-2.5 px-10 rounded-lg transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed mt-2 shadow-lg shadow-indigo-600/20 dark:shadow-none"
-          >
-            {loading ? <Loader2 className="animate-spin w-5 h-5" /> : <>Shorten <ArrowRight className="w-5 h-5" /></>}
-          </button>
-        </form>
-
-        {shortUrl && (
-          <div className="mt-8 p-4 bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700 rounded-lg flex justify-between items-center transition-all">
-            <div className="text-indigo-600 dark:text-indigo-400 font-medium font-mono truncate mr-2 select-all">
-              {shortUrl}
-            </div>
-            <button 
-              onClick={copyToClipboard} 
-              className="p-2 text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-700 rounded-md transition-all"
-              title="Copy to clipboard"
-            >
-              {copied ? <Check className="w-5 h-5 text-green-500" /> : <Copy className="w-5 h-5" />}
-            </button>
-          </div>
-        )}
+    <div className="min-h-screen bg-white text-zinc-950 flex flex-col justify-between p-6 sm:p-12 md:p-24 selection:bg-zinc-900 selection:text-white relative overflow-hidden">
+      
+      <main className="w-full max-w-5xl mx-auto flex-1 flex flex-col justify-center py-12 md:py-24">
         
-        <footer className="mt-8 text-xs text-gray-400 dark:text-gray-500">
-          <p>by Guilherme Ledo Chagas</p>
-        </footer>
-      </div>
+        <div className="max-w-3xl">
+          <h1 className="font-serif text-6xl sm:text-7xl md:text-8xl lg:text-9xl tracking-tight leading-[0.9] opacity-0 animate-fade-in-up delay-200">
+            URL Shortener
+          </h1>
+          
+          <div className="mt-12 md:mt-24 max-w-xl opacity-0 animate-fade-in-up delay-300">
+            {!shortUrl ? (
+              <form onSubmit={handleSubmit} className="relative group">
+                <input
+                  type="text"
+                  placeholder="Paste your link..."
+                  value={url}
+                  onChange={(e) => {
+                    setUrl(e.target.value);
+                    setError('');
+                  }}
+                  disabled={loading}
+                  className="w-full bg-transparent border-b border-zinc-200 py-4 pr-12 text-xl sm:text-2xl font-light placeholder:text-zinc-300 focus:outline-none focus:border-zinc-950 transition-colors disabled:opacity-50"
+                  autoComplete="off"
+                  spellCheck="false"
+                />
+                <button
+                  type="submit"
+                  disabled={loading || !url}
+                  className="absolute right-0 top-1/2 -translate-y-1/2 p-2 text-zinc-400 hover:text-zinc-950 disabled:opacity-30 disabled:hover:text-zinc-400 transition-colors"
+                >
+                  <ArrowRight className="w-6 h-6 sm:w-8 sm:h-8" strokeWidth={1.5} />
+                </button>
+                
+                <div className="absolute top-full left-0 mt-3 flex items-center justify-between w-full text-xs tracking-wide">
+                  {error ? (
+                    <span className="text-red-600 font-medium">{error}</span>
+                  ) : loading ? (
+                    <span className="text-zinc-500 animate-pulse">Processing...</span>
+                  ) : isWakingUp ? (
+                    <span className="text-zinc-400">Initializing connection...</span>
+                  ) : (
+                    <span className="text-zinc-400">Press enter to condense</span>
+                  )}
+                </div>
+              </form>
+            ) : (
+              <div className="animate-scale-in">
+                <div className="text-xs font-semibold tracking-[0.2em] uppercase text-zinc-400 mb-6">Your Link</div>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 pb-6 border-b border-zinc-200">
+                  <span className="font-serif text-4xl sm:text-5xl tracking-tight text-zinc-950 break-all select-all flex-1">
+                    {shortUrl}
+                  </span>
+                  
+                  <div className="flex gap-3 w-full sm:w-auto">
+                    <button
+                      onClick={copyToClipboard}
+                      className="flex-1 sm:flex-none px-8 py-4 bg-zinc-950 text-white text-xs font-semibold tracking-[0.15em] uppercase hover:bg-zinc-800 transition-colors flex items-center justify-center min-w-[140px]"
+                    >
+                      {copied ? <Check className="w-4 h-4 mr-2" /> : null}
+                      {copied ? 'Copied' : 'Copy'}
+                    </button>
+                    <button
+                      onClick={handleReset}
+                      className="p-4 border border-zinc-200 text-zinc-950 hover:bg-zinc-50 transition-colors"
+                      title="Shorten another"
+                    >
+                      <Plus className="w-5 h-5" strokeWidth={1.5} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </main>
+
+      <footer className="w-full max-w-5xl mx-auto flex justify-between items-end opacity-0 animate-fade-in delay-500 text-xs text-zinc-400 uppercase tracking-widest leading-loose">
+        <div>
+          &copy; {new Date().getFullYear()} <br/>
+          Guilherme Ledo Chagas
+        </div>
+      </footer>
     </div>
   );
 }
