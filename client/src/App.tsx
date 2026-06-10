@@ -92,17 +92,11 @@ function App() {
   return (
     <div className="min-h-screen bg-white text-zinc-950 flex flex-col justify-between p-6 sm:p-12 md:p-24 selection:bg-zinc-900 selection:text-white relative overflow-hidden">
       
-      <header className="w-full max-w-5xl mx-auto flex justify-between items-center opacity-0 animate-fade-in delay-100">
-        <div className="text-xs font-semibold tracking-[0.2em] uppercase text-zinc-950">Cut</div>
-        <div className="text-xs text-zinc-400 uppercase tracking-widest">Vol. 01</div>
-      </header>
-
       <main className="w-full max-w-5xl mx-auto flex-1 flex flex-col justify-center py-12 md:py-24">
         
         <div className="max-w-3xl">
           <h1 className="font-serif text-6xl sm:text-7xl md:text-8xl lg:text-9xl tracking-tight leading-[0.9] opacity-0 animate-fade-in-up delay-200">
-            Shorten.<br/>
-            <span className="text-zinc-400 italic pr-4">Simplify.</span>
+            URL Shortener
           </h1>
           
           <div className="mt-12 md:mt-24 max-w-xl opacity-0 animate-fade-in-up delay-300">
@@ -176,10 +170,6 @@ function App() {
         <div>
           &copy; {new Date().getFullYear()} <br/>
           Guilherme Ledo Chagas
-        </div>
-        <div className="text-right">
-          Design <br/>
-          Editorial System
         </div>
       </footer>
     </div>
